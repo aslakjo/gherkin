@@ -13,6 +13,10 @@ describe Gherkin::CodeGenerator do
     end
   end
 
+  it "should not have nil values as keywords" do
+    @generator.keywords.flatten.include?(nil).should be_false
+  end
+
   it "should remove text in parantesis" do
     @generator.keywords.flatten.each do |keyword|
       keyword.should_not == "Romanian(diacritical)"
@@ -20,8 +24,12 @@ describe Gherkin::CodeGenerator do
   end
 
   describe "keywords" do
-    it "should have a unique list of keywords" do
-      @generator.keywords.uniq.should == @generator.keywords
+    it "should be unique within one language" do
+      @generator.keywords.each do |language|
+        language_name = language.first
+        keywords = language[1,10]
+        keywords.uniq.should == keywords
+      end
     end
 
     it "should not give given when then as i18n keywords" do

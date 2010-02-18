@@ -6,7 +6,7 @@ module Gherkin
 
       @keywords = []
 
-     @erb_template = set_code_template(erb)
+      @erb_template = set_code_template(erb)
     end
 
     def generate
@@ -48,7 +48,7 @@ module Gherkin
         unless contains_standard_keyword? stripped_keyword
           stripped_keyword
         end
-      end
+      end.compact
     end
 
     private
