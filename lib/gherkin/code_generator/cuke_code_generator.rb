@@ -6,11 +6,7 @@ module Gherkin
 
       @keywords = []
 
-      if not erb.class.to_s == "Hash"
-        @erb_template = IO.read(erb)
-      else
-        @erb_template = erb[:template]
-      end
+     @erb_template = set_code_template(erb)
     end
 
     def generate
@@ -47,22 +43,17 @@ module Gherkin
     end
 
     def narative_keywords(language)
-      remove_duplication_in_keywords [fetch_keyword_for(language, "given"), fetch_keyword_for(language, "when"), fetch_keyword_for(language, "then")]
+      [fetch_keyword_for(language, "given"), fetch_keyword_for(language, "when"), fetch_keyword_for(language, "then")].uniq
     end
 
     private
-    def remove_duplication_in_keywords(keywords)
-      uniqe_keywords = []
-      keywords.each do |keyword|
-        unless uniqe_keywords.include? keyword
-          uniqe_keywords.push keyword
-        else
-          uniqe_keywords.push nil
-        end
+    def set_code_template(erb)
+       if not erb.class.to_s == "Hash"
+        IO.read(erb)
+      else
+        erb[:template]
       end
-      uniqe_keywords
     end
-
 
     def fetch_keyword_for(language, keyword)
       translated_keyword = language.keywords(keyword).last
