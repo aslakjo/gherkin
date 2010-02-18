@@ -43,7 +43,12 @@ module Gherkin
     end
 
     def narative_keywords(language)
-      [fetch_keyword_for(language, "given"), fetch_keyword_for(language, "when"), fetch_keyword_for(language, "then")].uniq
+      language.gwt_keywords.uniq.map do |keyword|
+        stripped_keyword = strip_illegal_characters keyword
+        unless contains_standard_keyword? stripped_keyword
+          stripped_keyword
+        end
+      end
     end
 
     private
@@ -52,17 +57,6 @@ module Gherkin
         IO.read(erb)
       else
         erb[:template]
-      end
-    end
-
-    def fetch_keyword_for(language, keyword)
-      translated_keyword = language.keywords(keyword).last
-      translated_keyword = strip_illegal_characters translated_keyword
-
-      if contains_standard_keyword? translated_keyword
-        nil
-      else
-        translated_keyword
       end
     end
 
