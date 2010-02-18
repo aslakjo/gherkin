@@ -27,7 +27,7 @@ module Gherkin
       Gherkin::I18n.all.each do |lang|
           keywords = narative_keywords(lang)
           language = lang.keywords("grammar_name").first
-          strip_keyword_of_paranteses! language
+          language = strip_keyword_of_paranteses language
           @keywords << [language, keywords].flatten
 
           template = ERB.new(@erb_template)
@@ -57,7 +57,7 @@ module Gherkin
 
     def fetch_keyword_for(language, keyword)
       translated_keyword = language.keywords(keyword).last
-      strip_illegal_characters! translated_keyword
+      translated_keyword = strip_illegal_characters translated_keyword
 
       if contains_standard_keyword? translated_keyword
         nil
@@ -78,12 +78,12 @@ module Gherkin
       false
     end
 
-    def strip_illegal_characters!(keyword)
-      keyword.gsub!(/[<>\s']/, "")
+    def strip_illegal_characters(keyword)
+      keyword.gsub(/[<>\s']/, "")
     end
 
-    def strip_keyword_of_paranteses!(language)
-      language.gsub!(/[\)\(]/, "")
+    def strip_keyword_of_paranteses(language)
+      language.gsub(/[\)\(]/, "")
     end
   end
 end
