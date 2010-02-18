@@ -5,7 +5,7 @@ end
 
 When /^I generate code for mye language$/ do
   require "gherkin/code_generator/cuke_code_generator"
-  @code_attributes = CukeCodeGenerator.new(:template => @template).generate
+  @code_attributes = Gherkin::CodeGenerator.new(:template => @template).generate
 end
 
 Then /^the generated code should contain$/ do |code|

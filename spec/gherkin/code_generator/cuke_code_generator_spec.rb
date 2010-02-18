@@ -1,9 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require 'gherkin/code_generator/cuke_code_generator'
 
-describe CukeCodeGenerator do
+describe Gherkin::CodeGenerator do
   before :each do
-    @generator = CukeCodeGenerator.new( :template => "<%= language %>" )
+    @generator = Gherkin::CodeGenerator.new( :template => "<%= language %>" )
     @generator.generate
   end
 
@@ -42,7 +42,7 @@ describe CukeCodeGenerator do
       end
 
       NORWEGIAN_LINE = /NorwegianGitt/
-      CukeCodeGenerator.new("file_with_template.erb").generate.should match NORWEGIAN_LINE
+      Gherkin::CodeGenerator.new("file_with_template.erb").generate.should match NORWEGIAN_LINE
     end
   end
 end
